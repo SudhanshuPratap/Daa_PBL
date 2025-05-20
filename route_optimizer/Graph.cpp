@@ -1,4 +1,3 @@
-// graph.cpp
 #include "graph.h"
 #include <queue>
 #include <limits>
@@ -17,14 +16,11 @@ void RouteGraph::addEdge(const Edge& edge) {
 }
 
 vector<int> RouteGraph::findShortestPath(int start, int end, const string& metric) {
-    // Priority queue: (distance, node)
     priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>>> pq;
     
-    // Track distances and previous nodes
     map<int, double> distances;
     map<int, int> previous;
     
-    // Initialize distances
     for (const auto& node : nodes) {
         distances[node.id] = numeric_limits<double>::infinity();
     }
@@ -52,7 +48,6 @@ vector<int> RouteGraph::findShortestPath(int start, int end, const string& metri
         }
     }
     
-    // Reconstruct path
     vector<int> path;
     for (int at = end; at != start; at = previous[at]) {
         path.push_back(at);
