@@ -1,4 +1,3 @@
-// graph_binding.cpp
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include "graph.h"
@@ -18,17 +17,15 @@ PYBIND11_MODULE(route_optimizer, m) {
         .def_readwrite("name", &Node::name);
 
     py::class_<Edge>(m, "Edge")
-        .def(py::init<int, int, double, double, double>(),
+        .def(py::init<int, int, double, double>(),
              py::arg("source") = 0,
              py::arg("target") = 0,
              py::arg("weight") = 0.0,
-             py::arg("time") = 0.0,
-             py::arg("cost") = 0.0)
+             py::arg("time") = 0.0)
         .def_readwrite("source", &Edge::source)
         .def_readwrite("target", &Edge::target)
         .def_readwrite("weight", &Edge::weight)
-        .def_readwrite("time", &Edge::time)
-        .def_readwrite("cost", &Edge::cost);
+        .def_readwrite("time", &Edge::time);
 
     py::class_<RouteGraph>(m, "RouteGraph")
         .def(py::init<>())

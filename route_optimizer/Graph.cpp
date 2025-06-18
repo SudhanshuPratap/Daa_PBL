@@ -3,7 +3,7 @@
 #include <limits>
 #include <algorithm>
 #define _WIN32_WINNT 0x0601
-#include <string.h>  // For strdup
+#include <string.h>
 using namespace std;
 
 void RouteGraph::addNode(const Node& node) {
@@ -15,9 +15,8 @@ void RouteGraph::addEdge(const Edge& edge) {
     adjacency_list[edge.source].push_back(edge);
 }
 
-vector<int> RouteGraph::findShortestPath(int start, int end, const string& metric) {
+vector<int> RouteGraph::findShortestPath(int start, int end) {
     priority_queue<pair<double, int>, vector<pair<double, int>>, greater<pair<double, int>>> pq;
-    
     map<int, double> distances;
     map<int, int> previous;
     
@@ -37,8 +36,7 @@ vector<int> RouteGraph::findShortestPath(int start, int end, const string& metri
         if (current_dist > distances[u]) continue;
         
         for (const Edge& edge : adjacency_list[u]) {
-            double weight = (metric == "cost") ? edge.cost : edge.time;
-            double new_dist = current_dist + weight;
+            double new_dist = current_dist + edge.time;
             
             if (new_dist < distances[edge.target]) {
                 distances[edge.target] = new_dist;
@@ -58,19 +56,19 @@ vector<int> RouteGraph::findShortestPath(int start, int end, const string& metri
     return path;
 }
 
-vector<int> RouteGraph::findPathWithWaypoints(int start, const vector<int>& waypoints, int end, const string& metric) {
+vector<int> RouteGraph::findPathWithWaypoints(int start, const vector<int>& waypoints, int end) {
     vector<int> full_path;
     int current = start;
     
     for (int wp : waypoints) {
-        vector<int> segment = findShortestPath(current, wp, metric);
+        vector<int> segment = findShortestPath(current, wp);
         if (segment.empty()) return {};
         
         full_path.insert(full_path.end(), segment.begin(), segment.end() - 1);
         current = wp;
     }
     
-    vector<int> last_segment = findShortestPath(current, end, metric);
+    vector<int> last_segment = findShortestPath(current, end);
     if (last_segment.empty()) return {};
     
     full_path.insert(full_path.end(), last_segment.begin(), last_segment.end());

@@ -19,15 +19,13 @@ struct Edge {
     int target;
     double weight;
     double time;
-    double cost;
     
-    // Add constructor
-    Edge(int src = 0, int tgt = 0, double w = 0.0, double t = 0.0, double c = 0.0)
-        : source(src), target(tgt), weight(w), time(t), cost(c) {}
+    Edge(int src = 0, int tgt = 0, double w = 0.0, double t = 0.0)
+        : source(src), target(tgt), weight(w), time(t) {}
 };
 
 class RouteGraph {
-    private:
+private:
     vector<Node> nodes;
     vector<Edge> edges;
     map<int, vector<Edge>> adjacency_list;
@@ -35,8 +33,6 @@ class RouteGraph {
 public:
     void addNode(const Node& node);
     void addEdge(const Edge& edge);
-    
-    vector<int> findShortestPath(int start, int end, const string& metric="time");
-    
-    vector<int> findPathWithWaypoints(int start, const vector<int>& waypoints, int end, const string& metric);
+    vector<int> findShortestPath(int start, int end);
+    vector<int> findPathWithWaypoints(int start, const vector<int>& waypoints, int end);
 };
